@@ -21,7 +21,7 @@ brew reinstall php56 --with-homebrew-curl
 
  
 ```
-composer require gepo/apns
+composer require gepo/apns-http2
 ```
 
 # Usage
