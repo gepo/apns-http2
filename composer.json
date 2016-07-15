@@ -1,0 +1,29 @@
+{
+    "name": "gepo/apns",
+    "license": "MIT",
+    "type": "library",
+    "description": "Library for sending APNS over HTTP/2.",
+    "authors": [
+        {
+            "name": "Gennady Telegin",
+            "email": "gtelegin@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Apns\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Apns\\": "tests/"
+        }
+    },
+    "require": {
+        "guzzlehttp/guzzle": "6.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.3"
+    }
+}
