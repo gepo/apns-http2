@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP APNS
+ * PHP APNS.
  *
  * @author Gennady Telegin <gtelegin@gmail.com>
  *
@@ -11,8 +11,7 @@
 namespace Apns\Exception;
 
 /**
- * Class InactiveDeviceTokenException
- * @package Apns\Exception
+ * Class InactiveDeviceTokenException.
  */
 class InactiveDeviceTokenException extends ApnsException
 {
@@ -24,16 +23,16 @@ class InactiveDeviceTokenException extends ApnsException
     /**
      * InactiveDeviceTokenException constructor.
      *
-     * @param string $reason
-     * @param int $timestamp
-     * @param int $code
+     * @param string          $reason
+     * @param int             $timestamp
+     * @param int             $code
      * @param \Exception|null $previous
      */
     public function __construct($reason = '', $timestamp = 0, $code = 0, \Exception $previous = null)
     {
         parent::__construct($reason, $code, $previous);
 
-        $this->timestamp = (int)$timestamp;
+        $this->timestamp = (int) $timestamp;
     }
 
     /**

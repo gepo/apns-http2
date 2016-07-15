@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP APNS
+ * PHP APNS.
  *
  * @author Gennady Telegin <gtelegin@gmail.com>
  *
@@ -11,9 +11,7 @@
 namespace Apns;
 
 /**
- * Class MessageAlert
- *
- * @package Apns
+ * Class MessageAlert.
  */
 class MessageAlert
 {
@@ -84,11 +82,13 @@ class MessageAlert
 
     /**
      * @param string $title
+     *
      * @return self
      */
     public function setTitle($title)
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -102,11 +102,13 @@ class MessageAlert
 
     /**
      * @param string $body
+     *
      * @return self
      */
     public function setBody($body)
     {
         $this->body = $body;
+
         return $this;
     }
 
@@ -120,11 +122,13 @@ class MessageAlert
 
     /**
      * @param string $titleLocKey
+     *
      * @return self
      */
     public function setTitleLocKey($titleLocKey)
     {
         $this->titleLocKey = $titleLocKey;
+
         return $this;
     }
 
@@ -138,11 +142,13 @@ class MessageAlert
 
     /**
      * @param string $titleLocArgs
+     *
      * @return self
      */
     public function setTitleLocArgs($titleLocArgs)
     {
         $this->titleLocArgs = $titleLocArgs;
+
         return $this;
     }
 
@@ -156,11 +162,13 @@ class MessageAlert
 
     /**
      * @param string $actionLocKey
+     *
      * @return self
      */
     public function setActionLocKey($actionLocKey)
     {
         $this->actionLocKey = $actionLocKey;
+
         return $this;
     }
 
@@ -174,11 +182,13 @@ class MessageAlert
 
     /**
      * @param string $locKey
+     *
      * @return self
      */
     public function setLocKey($locKey)
     {
         $this->locKey = $locKey;
+
         return $this;
     }
 
@@ -192,11 +202,13 @@ class MessageAlert
 
     /**
      * @param string $locArgs
+     *
      * @return self
      */
     public function setLocArgs($locArgs)
     {
         $this->locArgs = $locArgs;
+
         return $this;
     }
 
@@ -210,11 +222,13 @@ class MessageAlert
 
     /**
      * @param string $launchImage
+     *
      * @return self
      */
     public function setLaunchImage($launchImage)
     {
         $this->launchImage = $launchImage;
+
         return $this;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP APNS
+ * PHP APNS.
  *
  * @author Gennady Telegin <gtelegin@gmail.com>
  *
@@ -11,18 +11,10 @@
 namespace Apns;
 
 use Apns\Exception\ApnsException;
-use GuzzleHttp\Client as HttpClient;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
-
-if (! defined('CURL_HTTP_VERSION_2_0')) {
-    define('CURL_HTTP_VERSION_2_0', 3);
-}
+use Apns\Handler\GuzzleHandler;
 
 /**
- * Class Client
- *
- * @package Apns
+ * Class Client.
  */
 class Client
 {
@@ -37,58 +29,68 @@ class Client
     /**
      * Path to a file containing a private SSL key in PEM format.
      * If a password is required, then it's an array containing the path to the SSL key in the first array element
-     * followed by the password required for the certificate in the second element
+     * followed by the password required for the certificate in the second element.
      *
      * @var array|string
      */
     protected $sslCert;
 
     /**
-     * @var ClientInterface
+     * @var callable
      */
-    private $httpClient;
+    private $handler;
 
     /**
      * AppleNotification constructor.
      *
-     * @param string|array $sslCert string containing certificate file name or array [<filename>,<password>]
-     * @param bool $useSandbox
+     * @param string|array $sslCert    string containing certificate file name or array [<filename>,<password>]
+     * @param bool         $useSandbox
      */
     public function __construct($sslCert, $useSandbox = false)
     {
         $this->useSandbox = $useSandbox;
         $this->sslCert = $sslCert;
-        $this->httpClient = new HttpClient();
+
+        $this->handler = new GuzzleHandler();
     }
 
     /**
      * @param Message $message
+     *
      * @return bool
+     *
      * @throws ApnsException
      */
     public function send(Message $message)
     {
-        try {
-            $response = $this->httpClient->request(
-                'POST',
-                sprintf(
-                    "%s/3/device/%s",
-                    $this->useSandbox ? self::URI_SANDBOX : self::URI_PROD,
-                    $message->getDeviceIdentifier()
-                ),
-                [
-                    'json' => $message->getMessageBody(),
-                    'cert' => $this->sslCert,
-                    'headers' => $message->getMessageHeaders(),
-                    'curl' => [
-                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2_0,
-                    ],
-                ]
-            );
+        $handler = $this->handler;
 
-            return 200 === $response->getStatusCode();
-        } catch (RequestException $e) {
-            throw ExceptionFactory::createFor($e);
-        }
+        return $handler($this, $message);
+    }
+
+    /**
+     * @return array|string
+     */
+    public function getSslCert()
+    {
+        return $this->sslCert;
+    }
+
+    /**
+     * @return string
+     */
+    public function getServer()
+    {
+        return $this->useSandbox ? self::URI_SANDBOX : self::URI_PROD;
+    }
+
+    /**
+     * @param Message $message
+     *
+     * @return string
+     */
+    public function getPushURI(Message $message)
+    {
+        return sprintf('%s/3/device/%s', $this->getServer(), $message->getDeviceIdentifier());
     }
 }

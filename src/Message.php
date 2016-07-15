@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP APNS
+ * PHP APNS.
  *
  * @author Gennady Telegin <gtelegin@gmail.com>
  *
@@ -11,9 +11,8 @@
 namespace Apns;
 
 /**
- * Class Message
+ * Class Message.
  *
- * @package Apns
  * @see https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/TheNotificationPayload.html#//apple_ref/doc/uid/TP40008194-CH107-SW1
  */
 class Message
@@ -22,21 +21,21 @@ class Message
     const PRIORITY_SOMETIMES = 5;
 
     /**
-     * Custom data for the APS body
+     * Custom data for the APS body.
      *
      * @var array
      */
     protected $customData = [];
 
     /**
-     * Device identifier
+     * Device identifier.
      *
      * @var string
      */
     protected $identifier;
 
     /**
-     * The APS core body
+     * The APS core body.
      *
      * @var array
      */
@@ -50,7 +49,7 @@ class Message
     protected $id;
 
     /**
-     * Expiration date (UTC)
+     * Expiration date (UTC).
      *
      * A UNIX epoch date expressed in seconds (UTC).
      * This header identifies the date when the notification is no longer valid and can be discarded.
@@ -83,12 +82,12 @@ class Message
     protected $topic;
 
     /**
-     * Class constructor
+     * Class constructor.
      */
     public function __construct($identifier = null)
     {
         $this->apsBody = [
-            "aps" => [],
+            'aps' => [],
         ];
 
         if (null !== $identifier) {
@@ -97,7 +96,7 @@ class Message
     }
 
     /**
-     * Gets the full message body to send to APN
+     * Gets the full message body to send to APN.
      *
      * @return array
      */
@@ -111,7 +110,7 @@ class Message
             $payloadBody['alert'] = $payloadBody['alert']->getAlertBody();
         }
 
-        if (! empty($this->customData)) {
+        if (!empty($this->customData)) {
             $payloadBody = array_merge($payloadBody, $this->customData);
         }
 
@@ -119,7 +118,7 @@ class Message
     }
 
     /**
-     * Gets the apns-* headers to send in requrest to APN
+     * Gets the apns-* headers to send in requrest to APN.
      *
      * @return array
      */
@@ -137,15 +136,17 @@ class Message
     }
 
     /**
-     * Sets the alert title. For iOS, this is the APS alert message
+     * Sets the alert title. For iOS, this is the APS alert message.
      *
      * @param MessageAlert|string $alert
+     *
      * @return self
+     *
      * @throws \InvalidArgumentException
      */
     public function setAlert($alert)
     {
-        if (! is_string($alert) && ! $alert instanceof MessageAlert) {
+        if (!is_string($alert) && !$alert instanceof MessageAlert) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'Messages alert must be either string or instance of MessageAlert. Instance of "%s" provided',
@@ -154,21 +155,22 @@ class Message
             );
         }
 
-        $this->apsBody["aps"]["alert"] = $alert;
+        $this->apsBody['aps']['alert'] = $alert;
 
         return $this;
     }
 
     /**
-     * Sets any custom data for the APS body
+     * Sets any custom data for the APS body.
      *
      * @param array $data
+     *
      * @return self
      */
     public function setData(array $data)
     {
-        if (array_key_exists("aps", $data)) {
-            unset($data["aps"]);
+        if (array_key_exists('aps', $data)) {
+            unset($data['aps']);
         }
 
         foreach ($data as $key => $value) {
@@ -179,11 +181,13 @@ class Message
     }
 
     /**
-     * Add custom data
+     * Add custom data.
      *
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
+     *
      * @return self
+     *
      * @throws \LogicException
      * @throws \InvalidArgumentException
      */
@@ -195,8 +199,8 @@ class Message
 
         if (is_object($value)) {
             if (interface_exists('JsonSerializable')
-                && ! $value instanceof \stdClass
-                && ! $value instanceof \JsonSerializable
+                && !$value instanceof \stdClass
+                && !$value instanceof \JsonSerializable
             ) {
                 throw new \InvalidArgumentException(sprintf(
                     'Object %s::%s must be implements JsonSerializable interface for next serialize data.',
@@ -212,19 +216,21 @@ class Message
     }
 
     /**
-     * Sets the identifier of the target device, eg UUID or similar
+     * Sets the identifier of the target device, eg UUID or similar.
      *
      * @param string $identifier
+     *
      * @return self
      */
     public function setDeviceIdentifier($identifier)
     {
         $this->identifier = $identifier;
+
         return $this;
     }
 
     /**
-     * Returns the device identifier
+     * Returns the device identifier.
      *
      * @return null|string
      */
@@ -235,27 +241,31 @@ class Message
 
     /**
      * iOS-specific
-     * Sets the APS sound
+     * Sets the APS sound.
      *
      * @param string $sound The sound to use. Use 'default' to use the built-in default
+     *
      * @return self
      */
     public function setAPSSound($sound)
     {
-        $this->apsBody["aps"]["sound"] = (string)$sound;
+        $this->apsBody['aps']['sound'] = (string) $sound;
+
         return $this;
     }
 
     /**
      * iOS-specific
-     * Sets the APS badge count
+     * Sets the APS badge count.
      *
-     * @param integer $badge The badge count to display
+     * @param int $badge The badge count to display
+     *
      * @return self
      */
     public function setAPSBadge($badge)
     {
-        $this->apsBody["aps"]["badge"] = (int)$badge;
+        $this->apsBody['aps']['badge'] = (int) $badge;
+
         return $this;
     }
 
@@ -265,30 +275,32 @@ class Message
      * application:didReceiveRemoteNotification:fetchCompletionHandler: is called.
      *
      * @param string $contentAvailable The flag to set the content-available option, only 1 or null.
+     *
      * @return self
      */
     public function setAPSContentAvailable($contentAvailable = null)
     {
         if (1 === $contentAvailable) {
-            $this->apsBody["aps"]["content-available"] = 1;
+            $this->apsBody['aps']['content-available'] = 1;
         } else {
-            unset($this->apsBody["aps"]["content-available"]);
+            unset($this->apsBody['aps']['content-available']);
         }
+
         return $this;
     }
 
     /**
-     * Sets the APS category
+     * Sets the APS category.
      *
      * @param string $category The notification category
      */
     public function setAPSCategory($category)
     {
-        $this->apsBody["aps"]["category"] = (string)$category;
+        $this->apsBody['aps']['category'] = (string) $category;
     }
 
     /**
-     * Get apns-id of message
+     * Get apns-id of message.
      *
      * @return string
      */
@@ -298,19 +310,21 @@ class Message
     }
 
     /**
-     * Set apns-id of message
+     * Set apns-id of message.
      *
      * @param string $id
+     *
      * @return self
      */
     public function setId($id)
     {
-        $this->id = (string)$id;
+        $this->id = (string) $id;
+
         return $this;
     }
 
     /**
-     * Get expiry of message
+     * Get expiry of message.
      *
      * @return int
      */
@@ -320,14 +334,16 @@ class Message
     }
 
     /**
-     * Set expiry of message
+     * Set expiry of message.
      *
      * @param int $expiry
+     *
      * @return self
      */
     public function setExpiry($expiry)
     {
-        $this->expiry = (int)$expiry;
+        $this->expiry = (int) $expiry;
+
         return $this;
     }
 
@@ -341,16 +357,18 @@ class Message
 
     /**
      * @param int $priority
+     *
      * @return self
      */
     public function setPriority($priority)
     {
-        $this->priority = (int)$priority;
+        $this->priority = (int) $priority;
+
         return $this;
     }
 
     /**
-     * Get apns-topic of message
+     * Get apns-topic of message.
      *
      * @return string
      */
@@ -360,14 +378,16 @@ class Message
     }
 
     /**
-     * Set apns-topic of message
+     * Set apns-topic of message.
      *
      * @param string $topic
+     *
      * @return self
      */
     public function setTopic($topic)
     {
-        $this->topic = (string)$topic;
+        $this->topic = (string) $topic;
+
         return $this;
     }
 }

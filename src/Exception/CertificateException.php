@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP APNS
+ * PHP APNS.
  *
  * @author Gennady Telegin <gtelegin@gmail.com>
  *
@@ -11,10 +11,8 @@
 namespace Apns\Exception;
 
 /**
- * Class CertificateException
- * @package Apns\Exception
+ * Class CertificateException.
  */
 class CertificateException extends ApnsException
 {
-
 }

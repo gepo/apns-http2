@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP APNS
+ * PHP APNS.
  *
  * @author Gennady Telegin <gtelegin@gmail.com>
  *
@@ -8,25 +8,74 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Apns;
+namespace Apns\Handler;
 
+use Apns\Client as ApnsClient;
 use Apns\Exception\ApnsException;
 use Apns\Exception\CertificateException;
 use Apns\Exception\InactiveDeviceTokenException;
+use Apns\Message;
+use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\RequestException;
 
+if (! defined('CURL_HTTP_VERSION_2_0')) {
+    define('CURL_HTTP_VERSION_2_0', 3);
+}
+
 /**
- * Class ExceptionFactory
- *
- * @package Apns
+ * Class GuzzleHandler.
  */
-class ExceptionFactory
+class GuzzleHandler
 {
     /**
+     * @var HttpClient
+     */
+    private $httpClient;
+
+    /**
+     * GuzzleHandler constructor.
+     */
+    public function __construct()
+    {
+        $this->httpClient = new HttpClient();
+    }
+
+    /**
+     * @param ApnsClient $apns
+     * @param Message $message
+     *
+     * @return bool
+     *
+     * @throws ApnsException
+     */
+    public function __invoke(ApnsClient $apns, Message $message)
+    {
+        try {
+            $response = $this->httpClient->request(
+                'POST',
+                $apns->getPushURI($message),
+                [
+                    'json' => $message->getMessageBody(),
+                    'cert' => $apns->getSslCert(),
+                    'headers' => $message->getMessageHeaders(),
+                    'curl' => [
+                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2_0,
+                    ],
+                ]
+            );
+
+            return 200 === $response->getStatusCode();
+        } catch (RequestException $e) {
+            throw self::factoryException($e);
+        }
+    }
+
+    /**
      * @param RequestException $exception
+     *
      * @return ApnsException
      */
-    public static function createFor(RequestException $exception)
+    private static function factoryException(RequestException $exception)
     {
         $response = $exception->getResponse();
 
