@@ -13,7 +13,7 @@ namespace Apns;
 /**
  * Class MessageAlert.
  */
-class MessageAlert
+class MessageAlert implements \JsonSerializable
 {
     /**
      * @var string
@@ -58,9 +58,9 @@ class MessageAlert
     /**
      * @return array
      */
-    public function getAlertBody()
+    public function jsonSerialize()
     {
-        return [
+        return array_filter([
             'title' => $this->title,
             'body' => $this->body,
             'title-loc-key' => $this->titleLocKey,
@@ -69,7 +69,7 @@ class MessageAlert
             'loc-key' => $this->locKey,
             'loc-args' => $this->locArgs,
             'laungh-image' => $this->launchImage,
-        ];
+        ]);
     }
 
     /**

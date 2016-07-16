@@ -7,7 +7,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     public function testCreation()
     {
         $msg = new Message();
-        $this->assertEquals(['aps' => []], $msg->getMessageBody());
+        $this->assertEquals(['aps' => []], $this->serialized($msg));
         $this->assertNull($msg->getDeviceIdentifier());
     }
 
@@ -33,4 +33,38 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['apns-priority' => 10], $msg->getMessageHeaders());
     }
 
+    public function testSetAlert()
+    {
+        $msg = new Message();
+        $msg->setAlert('foo');
+        $this->assertEquals(['aps' => ['alert' => 'foo']], $this->serialized($msg));
+    }
+
+    public function testSetCustomAlert()
+    {
+        $msg = new Message();
+        $msg->setAlert(
+            (new MessageAlert())
+                ->setBody('foo')
+        );
+
+        $this->assertEquals(['aps' => ['alert' => ['body' => 'foo']]], $this->serialized($msg));
+    }
+
+    public function testSetCustomData()
+    {
+        $msg = new Message();
+        $msg->addCustomData('foo', 'bar');
+
+        $this->assertEquals(['aps' => [], 'foo' => 'bar'], $this->serialized($msg));
+    }
+
+    /**
+     * @param Message $msg
+     * @return array
+     */
+    private function serialized(Message $msg)
+    {
+        return json_decode(json_encode($msg), true);
+    }
 }

@@ -15,7 +15,7 @@ namespace Apns;
  *
  * @see https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/TheNotificationPayload.html#//apple_ref/doc/uid/TP40008194-CH107-SW1
  */
-class Message
+class Message implements \JsonSerializable
 {
     const PRIORITY_IMMEDIATELY = 10;
     const PRIORITY_SOMETIMES = 5;
@@ -100,15 +100,9 @@ class Message
      *
      * @return array
      */
-    public function getMessageBody()
+    public function jsonSerialize()
     {
         $payloadBody = $this->apsBody;
-
-        if (isset($payloadBody['alert'])
-            && $payloadBody['alert'] instanceof MessageAlert
-        ) {
-            $payloadBody['alert'] = $payloadBody['alert']->getAlertBody();
-        }
 
         if (!empty($this->customData)) {
             $payloadBody = array_merge($payloadBody, $this->customData);
@@ -194,18 +188,14 @@ class Message
     public function addCustomData($key, $value)
     {
         if ('aps' == $key) {
-            throw new \LogicException('Can\'t replace "aps" data. Please call to setMessage, if your want replace message text.');
+            throw new \LogicException('Can\'t replace "aps" data. Please call to setAlert, if your want replace message text.');
         }
 
         if (is_object($value)) {
-            if (interface_exists('JsonSerializable')
-                && !$value instanceof \stdClass
-                && !$value instanceof \JsonSerializable
-            ) {
+            if (!$value instanceof \stdClass && !$value instanceof \JsonSerializable) {
                 throw new \InvalidArgumentException(sprintf(
-                    'Object %s::%s must be implements JsonSerializable interface for next serialize data.',
-                    get_class($value),
-                    spl_object_hash($value)
+                    'Object %s must be implements JsonSerializable interface for next serialize data.',
+                    get_class($value)
                 ));
             }
         }
