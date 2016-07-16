@@ -88,6 +88,6 @@ class GuzzleHandler
             return new ApnsException('Unknown network error', 0, $e);
         }
 
-        ExceptionFactory::factoryException($response->getStatusCode(), $contents, $exception);
+        return ExceptionFactory::factoryException($response->getStatusCode(), $contents, $exception);
     }
 }
