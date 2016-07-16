@@ -119,6 +119,12 @@ class Message implements \JsonSerializable
     public function getMessageHeaders()
     {
         $headers = [];
+        if ($this->id) {
+            $headers['apns-id'] = $this->id;
+        }
+        if ($this->expiry) {
+            $headers['apns-expiration'] = $this->expiry;
+        }
         if ($this->priority) {
             $headers['apns-priority'] = $this->priority;
         }
