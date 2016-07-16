@@ -11,7 +11,7 @@
 namespace Apns;
 
 use Apns\Exception\ApnsException;
-use Apns\Handler\GuzzleHandler;
+use Apns\Handler\HandlerFactory;
 
 /**
  * Class Client.
@@ -45,13 +45,14 @@ class Client
      *
      * @param string|array $sslCert    string containing certificate file name or array [<filename>,<password>]
      * @param bool         $useSandbox
+     * @param callable     $handler
      */
-    public function __construct($sslCert, $useSandbox = false)
+    public function __construct($sslCert, $useSandbox = false, callable $handler = null)
     {
         $this->useSandbox = $useSandbox;
         $this->sslCert = $sslCert;
 
-        $this->handler = new GuzzleHandler();
+        $this->handler = $handler ?: HandlerFactory::create();
     }
 
     /**

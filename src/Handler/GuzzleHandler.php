@@ -12,13 +12,12 @@ namespace Apns\Handler;
 
 use Apns\Client as ApnsClient;
 use Apns\Exception\ApnsException;
-use Apns\Exception\CertificateException;
-use Apns\Exception\InactiveDeviceTokenException;
+use Apns\ExceptionFactory;
 use Apns\Message;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\RequestException;
 
-if (! defined('CURL_HTTP_VERSION_2_0')) {
+if (!defined('CURL_HTTP_VERSION_2_0')) {
     define('CURL_HTTP_VERSION_2_0', 3);
 }
 
@@ -42,7 +41,7 @@ class GuzzleHandler
 
     /**
      * @param ApnsClient $apns
-     * @param Message $message
+     * @param Message    $message
      *
      * @return bool
      *
@@ -80,47 +79,15 @@ class GuzzleHandler
         $response = $exception->getResponse();
 
         if (null === $response) {
-            return new ApnsException(
-                'Unknown network error',
-                0,
-                $exception
-            );
+            return new ApnsException('Unknown network error', 0, $exception);
         }
 
         try {
-            $data = json_decode($response->getBody()->getContents(), true);
+            $contents = $response->getBody()->getContents();
         } catch (\Exception $e) {
-            return new ApnsException(
-                'Unknown network error',
-                0,
-                $e
-            );
+            return new ApnsException('Unknown network error', 0, $e);
         }
 
-        $reason = isset($data['reason']) ? (string)$data['reason'] : '';
-
-        switch ($response->getStatusCode()) {
-            case 403:
-                return new CertificateException(
-                    $reason,
-                    $response->getStatusCode(),
-                    $exception
-                );
-
-            case 410:
-                return new InactiveDeviceTokenException(
-                    $reason,
-                    isset($data['timestamp']) ? $data['timestamp'] : 0,
-                    $response->getStatusCode(),
-                    $exception
-                );
-
-            default:
-                return new ApnsException(
-                    $reason,
-                    $response->getStatusCode(),
-                    $exception
-                );
-        }
+        ExceptionFactory::factoryException($response->getStatusCode(), $contents, $exception);
     }
 }
