@@ -1,10 +1,10 @@
 # APNS
 
-[![Build Status](https://travis-ci.org/gepo/apns.svg?branch=master)](https://travis-ci.org/gepo/apns)
+[![Build Status](https://travis-ci.org/gepo/apns-http2.svg?branch=master)](https://travis-ci.org/gepo/apns-http2)
 [![Dependency Status](https://www.versioneye.com/user/projects/57891926c3d40f003caa3071/badge.svg)](https://www.versioneye.com/user/projects/57891926c3d40f003caa3071)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/gepo/apns/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/gepo/apns/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/gepo/apns/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/gepo/apns/?branch=master)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/gepo/apns/blob/master/LICENSE)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/gepo/apns-http2/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/gepo/apns-http2/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/gepo/apns-http2/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/gepo/apns-http2/?branch=master)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/gepo/apns-http2/blob/master/LICENSE)
 
 PHP library for sending notifications via Apple Push Notification service (APNS) over HTTP/2.
 
