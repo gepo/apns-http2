@@ -54,7 +54,7 @@ class GuzzleHandler
                 'POST',
                 $apns->getPushURI($message),
                 [
-                    'json' => json_encode($message),
+                    'json' => $message,
                     'cert' => $apns->getSslCert(),
                     'headers' => $message->getMessageHeaders(),
                     'curl' => [
