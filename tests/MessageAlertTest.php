@@ -2,7 +2,9 @@
 
 namespace Apns;
 
-class MessageAlertTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class MessageAlertTest extends TestCase
 {
     /**
      * @dataProvider dataSettersAndGetters
