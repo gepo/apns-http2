@@ -20,11 +20,11 @@ composer require gepo/apns-http2
 
 Since 29 March 2021, the AAA certificate is required. You can read about it and get it here: https://developer.apple.com/news/?id=7gx0a2lp.
 
-On Ubuntu, you must put it in `/usr/local/share/ca-certificates/extra` (create the path if it doesn't exist), and run `update-ca-certificates` as `root`).
+On Ubuntu, you must put it in `/usr/local/share/ca-certificates/extra/` (create the path if it doesn't exist), and run `update-ca-certificates` as `root`).
 
 ## cURL HTTP/2 support
 
-You need cURL with HTTP/2 support installed on your system before work.
+You need cURL with HTTP/2 support installed on your system for this library to work.
 
 ### Check if your installation supports it
 
@@ -45,9 +45,9 @@ if ($version['features'] & constant('CURL_VERSION_HTTP2') !== 0) {
 }
 ```
 
-### Installation on MacOS
+### Installation on MacOS X
 
-To install it on OS X:
+To install it on OS X with Homebrew (the example is for php56):
 ```
 brew install curl --with-nghttp2 --with-openssl
 brew link curl --force
@@ -83,7 +83,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use Apns\Client as ApnsClient;
 use Apns\Message as ApnsMessage;
-use ApnsException;
+use Apns\Exception\ApnsException;
 
 $token = 'a00915e74d60d71ba3fb80252a5e197b60f2e7743f61b4411c713e9aabd2854f';
 
