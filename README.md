@@ -18,7 +18,7 @@ composer require gepo/apns-http2
 
 ## AAA Certificate
 
-Since 29 March 2021, the AAA certificate is required. You can get it here: https://support.sectigo.com/Com_KnowledgeDetailPage?Id=kA03l00000117cL (the first one, name AAA).
+Since 29 March 2021, the AAA certificate is required. You can read about it and get it here: https://developer.apple.com/news/?id=7gx0a2lp.
 
 On Ubuntu, you must put it in `/usr/local/share/ca-certificates/extra` (create the path if it doesn't exist), and run `update-ca-certificates` as `root`).
 
@@ -83,6 +83,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use Apns\Client as ApnsClient;
 use Apns\Message as ApnsMessage;
+use ApnsException;
 
 $token = 'a00915e74d60d71ba3fb80252a5e197b60f2e7743f61b4411c713e9aabd2854f';
 
@@ -119,7 +120,7 @@ $message = (new ApnsMessage())
 // Send it and catch errors
 try {
     $client->send($message);
-} catch (\Exception $e) {
+} catch (ApnsException $e) {
     // https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/CommunicatingwithAPNs.html#//apple_ref/doc/uid/TP40008194-CH11-SW17
     switch ($e->getMessage()) {
         case 'BadDeviceToken':
