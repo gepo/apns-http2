@@ -63,7 +63,7 @@ brew reinstall php56 --with-homebrew-curl
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$client = new \Apns\Client(__DIR__ . '/certs/apns-prod-cert.pem', true); // true is for sandbox
+$client = new \Apns\Client(__DIR__ . '/certs/apns-dev-cert.pem', true); // true is for sandbox
 
 $message = (new \Apns\Message())
     ->setDeviceIdentifier('a00915e74d60d71ba3fb80252a5e197b60f2e7743f61b4411c713e9aabd2854f')
@@ -95,7 +95,7 @@ if ((!ctype_xdigit($token)) || (64 != strlen($token))) {
 // Create client with production certificate and passphrase
 $client = new ApnsClient(
     [
-        __DIR__ . '/certs/apns-dev-cert.pem',
+        __DIR__ . '/certs/apns-prod-cert.pem',
         'my-passphrase'
     ], 
     false // false is for production
