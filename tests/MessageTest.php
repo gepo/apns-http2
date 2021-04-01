@@ -101,11 +101,9 @@ class MessageTest extends TestCase
         $this->assertEquals(['aps' => ['alert' => ['body' => 'foo']]], $this->serialized($msg));
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function testSetInvalidAlert()
     {
+        $this->expectException(\Exception::class);
         $msg = new Message();
         $msg->setAlert(new \stdClass());
     }
@@ -126,21 +124,17 @@ class MessageTest extends TestCase
         $this->assertEquals(['aps' => [], 'foo' => 'bar'], $this->serialized($msg));
     }
 
-    /**
-     * @expectedException  \Exception
-     */
     public function testSetCustomDataInvalidKey()
     {
+        $this->expectException(\Exception::class);
         $msg = new Message();
         $msg->addCustomData('aps', 'foo');
     }
 
-    /**
-     * @expectedException  \Exception
-     * @expectedExceptionMessage DateTime
-     */
     public function testSetCustomDataInvalidObject()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('DateTime');
         $msg = new Message();
         $msg->addCustomData('foo', new \DateTime);
     }

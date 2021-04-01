@@ -9,7 +9,7 @@ class ClientTest extends TestCase
     public function testCreateSandbox()
     {
         $client = new Client('', true);
-        $this->assertContains('development', $client->getServer());
+        $this->assertStringContainsString('development', $client->getServer());
     }
 
     /**
@@ -32,7 +32,7 @@ class ClientTest extends TestCase
     public function testCreateProd()
     {
         $client = new Client('', false);
-        $this->assertNotContains('develop', $client->getServer());
+        $this->assertStringNotContainsString('develop', $client->getServer());
     }
 
     public function testCreatePushURI()
@@ -40,8 +40,8 @@ class ClientTest extends TestCase
         $client = new Client('', true);
         $pushUri = $client->getPushURI((new Message())->setDeviceIdentifier('foobar'));
 
-        $this->assertContains('develop', $pushUri);
-        $this->assertContains('foobar', $pushUri);
+        $this->assertStringContainsString('develop', $pushUri);
+        $this->assertStringContainsString('foobar', $pushUri);
     }
 
     public function testSend()
@@ -60,6 +60,6 @@ class ClientTest extends TestCase
      */
     private function getMockCallable()
     {
-        return $this->getMockBuilder('object')->setMethods(['__invoke'])->getMock();
+        return $this->getMockBuilder('stdClass')->setMethods(['__invoke'])->getMock();
     }
 }
