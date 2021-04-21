@@ -24,7 +24,7 @@ On Ubuntu, you must put it in `/usr/local/share/ca-certificates/extra/` (create 
 
 ## cURL HTTP/2 support
 
-You need cURL with HTTP/2 support installed on your system for this library to work.
+You need cURL with HTTP/2 support installed on your system for this library to work. cURL supports HTTP/2 starting version 7.43.0.
 
 ### Check if your installation supports it
 
@@ -33,22 +33,46 @@ Here's a simple script to check if your installation supports cURL with HTTP/2:
 ```php
 <?php
 
-if (!defined('CURL_HTTP_VERSION_2_0')) {
-        define('CURL_HTTP_VERSION_2_0', 3);
-}
-
+defined('CURL_VERSION_HTTP2') || define('CURL_VERSION_HTTP2', 65536);
 $version = curl_version();
-if ($version['features'] & constant('CURL_VERSION_HTTP2') !== 0) {
+if (($version['features'] & CURL_VERSION_HTTP2) !== 0) {
         echo 'HTTP/2 supported'.PHP_EOL;
 } else {
         echo 'HTTP/2 not supported'.PHP_EOL;
 }
 ```
 
+Alternatively, you may check the cURL version in command line to make sure it's greater or equal to 7.43.0:
+
+```sh
+curl --version
+```
+
+### Installation on Ubuntu
+
+```sh
+#!/bin/bash
+
+# Update version to latest, found here: https://curl.se/download/
+VERSION=7.76.1
+
+cd ~
+sudo apt-get update -y
+sudo apt-get install -y build-essential nghttp2 libnghttp2-dev libssl-dev wget
+wget https://curl.haxx.se/download/curl-${VERSION}.tar.gz
+tar -xzvf curl-${VERSION}.tar.gz && rm -f curl-${VERSION}.tar.gz && cd curl-${VERSION}
+./configure --prefix=/usr/local --with-ssl --with-nghttp2
+make -j4
+sudo make install
+sudo ldconfig
+cd ~ && rm -rf curl-${VERSION}
+```
+This script is based on https://gist.github.com/jjpeleato/3327c2e38fc0fea7d6602401f9849809
+
 ### Installation on MacOS X
 
-To install it on OS X with Homebrew (the example is for php56):
-```
+To install it on OS X with Homebrew (the example is for PHP 5.6):
+```sh
 brew install curl --with-nghttp2 --with-openssl
 brew link curl --force
 brew reinstall php56 --with-homebrew-curl
