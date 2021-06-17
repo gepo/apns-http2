@@ -289,10 +289,14 @@ class Message implements \JsonSerializable
      * Sets the APS category.
      *
      * @param string $category The notification category
+     *
+     * @return self
      */
     public function setAPSCategory($category)
     {
         $this->apsBody['aps']['category'] = (string) $category;
+
+        return $this;
     }
 
     /**
