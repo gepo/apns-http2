@@ -1,6 +1,6 @@
 # APNS
 
-[![Build Status](https://travis-ci.org/gepo/apns-http2.svg?branch=master)](https://travis-ci.org/gepo/apns-http2)
+[![Build Status](https://travis-ci.com/gepo/apns-http2.svg?branch=master)](https://travis-ci.com/gepo/apns-http2)
 [![Dependency Status](https://www.versioneye.com/user/projects/57891926c3d40f003caa3071/badge.svg)](https://www.versioneye.com/user/projects/57891926c3d40f003caa3071)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/gepo/apns-http2/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/gepo/apns-http2/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/gepo/apns-http2/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/gepo/apns-http2/?branch=master)
