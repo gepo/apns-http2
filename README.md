@@ -1,7 +1,9 @@
 # APNS
 
-Fork of [gepo/apns-http2](https://github.com/gepo/apns-http2), to be able to use guzzlehttp/guzzle v 7.x along with v 6.x
-
+[![Build Status](https://travis-ci.com/gepo/apns-http2.svg?branch=master)](https://travis-ci.com/gepo/apns-http2)
+[![Dependency Status](https://www.versioneye.com/user/projects/57891926c3d40f003caa3071/badge.svg)](https://www.versioneye.com/user/projects/57891926c3d40f003caa3071)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/gepo/apns-http2/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/gepo/apns-http2/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/gepo/apns-http2/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/gepo/apns-http2/?branch=master)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/gepo/apns-http2/blob/master/LICENSE)
 
 PHP library for sending notifications via Apple Push Notification service (APNS) over HTTP/2.
